@@ -1,20 +1,30 @@
 package main
 
-import(
+import (
 	"fmt"
+	"log"
 	"net/http"
+	"os"
+	// _ "github.com/go-sql-driver/mysql"
+	// // go import の影響で消える
+	// _ "github.com/hrdtknr/GoAndMySQL"
 )
 
-func handler(w http.ResponseWriter, r *http.Request){
-	fmt.Println(w)
-	fmt.Println("hello docker")
-}
+func main() {
 
-func main(){
+	// db := test.OpenDB(os.Getenv("DRIVER"), os.Getenv("DSN"))
+	// defer test.CloseDB(db)
+
+	// if err := db.Ping(); err != nil {
+	// 	log.Fatal("db.Ping failed:", err)
+	// }
+
 	fmt.Println("start")
-	http.HandleFunc("/", handler)
-	http.ListenAndServe(":3000", nil)
-	fmt.Println("end")
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		_, _ = fmt.Fprint(w, "hello, docker container\n")
+	})
+
+	// ローカルだと.env読めてない
+	// コンテナ起動すればOK
+	log.Fatal(http.ListenAndServe(":"+os.Getenv("PORT"), nil))
 }
-
-

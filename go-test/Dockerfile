@@ -1,10 +1,10 @@
 FROM golang:1.16.5-alpine3.14
 
-WORKDIR /user/src/app
+WORKDIR /go/src/app
 
-COPY main.go ./
+COPY . .
 
-EXPOSE 3000
+# EXPOSE 3000
 
 CMD ["go", "run", "main.go"]
 # ダメだった書き方
